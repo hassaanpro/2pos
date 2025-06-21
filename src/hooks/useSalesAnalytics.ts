@@ -120,11 +120,9 @@ export const useHourlySalesTrend = (date: string) => {
   return useQuery({
     queryKey: ['hourly-sales-trend', date],
     queryFn: async () => {
-      // Convert string date to Date object to resolve function overloading ambiguity
-      const dateParam = new Date(date + 'T00:00:00')
-      
+      // Pass date as YYYY-MM-DD string to avoid function overloading ambiguity
       const { data, error } = await supabase.rpc('get_hourly_sales_trend', {
-        p_date: dateParam
+        p_date: date
       })
       
       if (error) throw error
